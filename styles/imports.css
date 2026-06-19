@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@import "tailwindcss";
+@import "tailwindcss-primeui";
+@import 'primeicons/primeicons.css';
+
+@layer base {
+  html {
+    font-size: 14px;
+  }
+}
+
+/* ============================================================
+   Stacks — design tokens
+   gen-z "soft pop": violet-forward, candy accents, ink text
+   ============================================================ */
+@theme {
+  --font-sans: "Inter", sans-serif;
+
+  /* Brand / primary — violet */
+  --color-primary-50:  #f5f3ff;
+  --color-primary-100: #ede9fe;
+  --color-primary-200: #ddd6fe;
+  --color-primary-300: #c4b5fd;
+  --color-primary-400: #a78bfa;
+  --color-primary-500: #8b5cf6;
+  --color-primary-600: #7c3aed;
+  --color-primary-700: #6d28d9;
+  --color-primary-800: #5b21b6;
+  --color-primary-900: #4c1d95;
+  --color-primary-950: #2e1065;
+
+  /* Accents */
+  --color-accent-pink: #ec4899;
+  --color-accent-mint: #2dd4bf;
+  --color-accent-sky:  #38bdf8;
+  --color-accent-amber: #fbbf24;
+  --color-accent-rose: #fb7185;
+
+  /* Surfaces & ink */
+  --color-ink:   #1e1b2e;
+  --color-muted: #6b6880;
+  --color-canvas: #faf9ff;
+}
+
+:root {
+  --color-primary: var(--color-primary-600);
+
+  /* App background tint */
+  --app-bg: var(--color-canvas);
+  --sidebar-gradient: linear-gradient(180deg, #6d28d9 0%, #7c3aed 55%, #8b5cf6 100%);
+}
+
+body {
+  background-color: var(--app-bg);
+  color: var(--color-ink);
+}
+
+a {
+  color: var(--color-primary);
+}
+
+h1, h2, h3, h4, h5, h6, .p-card-title, .p-dialog-title, .p-panel-header, .p-accordion-header {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+.p-paginator.p-component {
+  justify-content: end;
+}
+
+.section-title h6 {
+  letter-spacing: 2px;
+}
+
+.section-title::after {
+  content: "";
+  width: 32px;
+  display: block;
+  margin-top: 0.8rem;
+  border-top: 3px solid var(--color-primary-500);
+  border-radius: 9999px;
+}
+
+.inline-form-grid {
+  display: grid;
+  grid-gap: 16px;
+  padding: 16px 0;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(160px, 1fr);
+  overflow-x: auto;
+}
+
+/* ============================================================
+   Sidebar / nav — violet gradient with lavender text
+   ============================================================ */
+.fixed-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background: var(--sidebar-gradient);
+  box-shadow: 4px 0 24px -12px rgba(76, 29, 149, 0.45);
+}
+
+.nav-items .link-text, .nav-items i {
+  letter-spacing: 0.4px !important;
+  color: rgba(255, 255, 255, 0.82) !important;
+}
+
+.nav-items a, .nav-items .menu-item {
+  border-radius: 0.75rem;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.nav-items a:hover {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.nav-items .active {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 6px 16px -8px rgba(46, 16, 101, 0.6);
+}
+
+.nav-items .active .link-text, .nav-items .active i {
+  font-weight: 700;
+  letter-spacing: 0.4px !important;
+  color: var(--color-primary-700) !important;
+}
+
+/* ============================================================
+   Tables
+   ============================================================ */
+.pd-table {
+  @apply min-w-full bg-white;
+}
+
+.pd-table th {
+  @apply px-6 py-3 font-semibold;
+  color: var(--color-ink);
+}
+
+.pd-table thead th {
+  @apply text-right;
+}
+
+.pd-table th {
+  @apply text-left;
+}
+
+.pd-table td {
+  @apply px-6 py-4 text-right;
+  color: #4b4860;
+}
+
+.pd-table tr:hover {
+  background-color: var(--color-primary-50);
+}
+
+.pd-table tr:nth-child(even) {
+  @apply bg-gray-50;
+}

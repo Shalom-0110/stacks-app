@@ -1,0 +1,720 @@
+/* Base Styles */
+:root {
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 45px;
+  --header-height: 60px;
+  --inline-auto-fit-grid-flow: repeat(auto-fit, minmax(max-content, 0px));
+
+  /* ----------------------------------------------------------
+     Stacks semantic palette (gen-z "soft pop")
+     Previously referenced but never defined — defined here.
+     ---------------------------------------------------------- */
+  --primary-color: #7c3aed;     /* violet  */
+  --primary-color-rgb: 124, 58, 237;
+  --secondary-color: #6b6880;   /* muted ink */
+  --secondary-color-rgb: 107, 104, 128;
+  --info-color: #0ea5e9;        /* sky     */
+  --info-color-rgb: 14, 165, 233;
+  --success-color: #14b8a6;     /* mint    */
+  --success-color-rgb: 20, 184, 166;
+  --warning-color: #f59e0b;     /* amber   */
+  --warning-color-rgb: 245, 158, 11;
+  --danger-color: #f43f5e;      /* rose    */
+  --danger-color-rgb: 244, 63, 94;
+
+  --ink: #1e1b2e;
+  --card-shadow: 0 4px 20px -10px rgba(46, 16, 101, 0.25);
+}
+
+html {
+  //font-size: 15px;
+}
+
+html, body {
+  min-height: 100vh;
+}
+
+// Layout using PrimeFlex classes
+.layout-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.layout-sidebar {
+  width: var(--sidebar-width);
+  height: 100vh;
+  transition: all 0.2s ease-out;
+  overflow-x: hidden;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+
+  &.layout-sidebar-slim {
+    width: var(--sidebar-collapsed-width);
+
+    .nav-items, .bottom-items, .brand-logo {
+      display: none;
+      opacity: 0;
+    }
+
+    .menu-text {
+      display: none;
+      opacity: 0;
+    }
+
+    .menu-icon {
+      margin-right: 0;
+    }
+
+    .sidebar-header {
+      .brand-text {
+        display: none;
+        opacity: 0;
+      }
+    }
+  }
+
+  .sidebar-header {
+    height: var(--header-height);
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    .brand-text {
+      margin-left: 0.5rem;
+      font-weight: 600;
+      white-space: nowrap;
+      transition: opacity 0.2s ease;
+    }
+
+    .sidebar-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 4px;
+      transition: background-color 0.2s ease;
+    }
+  }
+
+  .sidebar-menu {
+    margin-top: 0.5rem;
+    padding: 0.5rem 0;
+    overflow-y: auto;
+
+    .menu-item {
+      padding: 0.75rem 1rem;
+      text-decoration: none;
+      color: rgba(255, 255, 255, 0.8);
+      transition: all 0.2s ease;
+      border-radius: 0.25rem;
+      margin: 0.25rem 0.5rem;
+
+      &:hover, &.active {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+      }
+
+      .menu-icon {
+        min-width: 24px;
+        width: 24px;
+        height: 24px;
+        margin-right: 1rem;
+        transition: margin 0.3s ease;
+      }
+
+      .menu-text {
+        white-space: nowrap;
+        transition: opacity 0.2s ease;
+        font-size: 0.875rem;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// Page header
+.page-header {
+  margin-bottom: 1.5rem;
+
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .breadcrumb {
+    display: flex;
+    list-style: none;
+    margin-bottom: 0.75rem;
+
+    li {
+      &:not(:last-child) {
+        margin-right: 0.5rem;
+
+        &:after {
+          content: '/';
+          margin-left: 0.5rem;
+          color: var(--secondary-color);
+        }
+      }
+
+      a {
+        color: var(--primary-color);
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+// Kanban board
+.kanban-board {
+  display: flex;
+  overflow-x: auto;
+  padding: 1rem 0;
+  min-height: 400px;
+
+  .kanban-column {
+    min-width: 300px;
+    width: 300px;
+    margin-right: 1rem;
+    border-radius: 0.25rem;
+    display: flex;
+    flex-direction: column;
+    max-height: 80vh;
+
+    .column-header {
+      padding: 0.75rem;
+      font-weight: 600;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .column-content {
+      padding: 0.75rem;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .empty-column-message {
+      padding: 1rem;
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.03);
+      border-radius: 0.25rem;
+    }
+  }
+
+  .kanban-card {
+    background-color: white;
+    padding: 0.75rem;
+    border-radius: 0.25rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    }
+
+    .card-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-description {
+      margin: 0.5rem 0;
+      font-size: 0.875rem;
+      color: #666;
+    }
+
+    .card-labels {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 0.5rem;
+
+      .label {
+        padding: 0.2rem 0.5rem;
+        font-size: 0.75rem;
+        border-radius: 0.25rem;
+        margin-right: 0.5rem;
+        margin-bottom: 0.25rem;
+      }
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.5rem;
+      font-size: 0.875rem;
+    }
+  }
+}
+
+// Task detail view
+.task-detail-view {
+  .task-section {
+    margin-bottom: 2rem;
+  }
+
+  .task-title {
+    margin-bottom: 1rem;
+  }
+
+  .task-meta {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+
+    .meta-item {
+      margin-right: 1.5rem;
+      margin-bottom: 0.5rem;
+
+      .meta-label {
+        display: block;
+        font-size: 0.75rem;
+        color: var(--secondary-color);
+        margin-bottom: 0.25rem;
+      }
+
+      .meta-value {
+        font-weight: 500;
+      }
+    }
+  }
+
+  .comments-section {
+    margin-top: 2rem;
+
+    .comment {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+      .comment-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+
+        .commenter {
+          font-weight: 500;
+        }
+
+        .comment-date {
+          font-size: 0.75rem;
+          color: var(--secondary-color);
+        }
+      }
+    }
+  }
+
+  .comment-form {
+    margin-top: 1rem;
+  }
+}
+
+// Project create/edit form
+.project-form {
+  .form-section {
+    margin-bottom: 2rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .help-text {
+      display: block;
+      margin-top: 0.25rem;
+      font-size: 0.75rem;
+      color: var(--secondary-color);
+    }
+  }
+
+  .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -0.5rem;
+
+    .form-group {
+      flex: 1;
+      min-width: 250px;
+      padding: 0 0.5rem;
+    }
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+
+    button {
+      margin-left: 0.5rem;
+    }
+  }
+}
+
+// Expense claims
+.expense-claims-view {
+  .expense-summary {
+    margin-bottom: 2rem;
+
+    .summary-card {
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      .summary-title {
+        font-size: 0.875rem;
+        color: var(--secondary-color);
+        margin-bottom: 0.5rem;
+      }
+
+      .summary-value {
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+
+      &.bg-info {
+        background-color: rgba(var(--info-color-rgb), 0.1);
+        color: var(--info-color);
+      }
+
+      &.bg-success {
+        background-color: rgba(var(--success-color-rgb), 0.1);
+        color: var(--success-color);
+      }
+
+      &.bg-warning {
+        background-color: rgba(var(--warning-color-rgb), 0.1);
+        color: var(--warning-color);
+      }
+
+      &.bg-danger {
+        background-color: rgba(var(--danger-color-rgb), 0.1);
+        color: var(--danger-color);
+      }
+    }
+  }
+
+  .status-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 50rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+
+    &.status-draft {
+      background-color: rgba(var(--secondary-color-rgb), 0.1);
+      color: var(--secondary-color);
+    }
+
+    &.status-submitted {
+      background-color: rgba(var(--info-color-rgb), 0.1);
+      color: var(--info-color);
+    }
+
+    &.status-approved {
+      background-color: rgba(var(--success-color-rgb), 0.1);
+      color: var(--success-color);
+    }
+
+    &.status-rejected {
+      background-color: rgba(var(--danger-color-rgb), 0.1);
+      color: var(--danger-color);
+    }
+  }
+}
+
+// Expense claim detail
+.expense-claim-detail {
+  .expense-header {
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--card-shadow);
+
+    .expense-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+
+      h2 {
+        margin: 0;
+      }
+    }
+
+    .expense-info {
+      display: flex;
+      flex-wrap: wrap;
+
+      .info-item {
+        margin-right: 2rem;
+        margin-bottom: 1rem;
+
+        .info-label {
+          font-size: 0.75rem;
+          color: var(--secondary-color);
+          margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+          font-weight: 500;
+        }
+      }
+    }
+  }
+
+  .expense-line-items {
+    margin-bottom: 1.5rem;
+
+    .line-item {
+      background-color: white;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: var(--card-shadow);
+
+      .line-item-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+
+        .line-item-title {
+          font-weight: 500;
+        }
+
+        .line-item-amount {
+          font-weight: 600;
+        }
+      }
+
+      .line-item-details {
+        font-size: 0.875rem;
+        color: var(--secondary-color);
+
+        .detail-item {
+          margin-bottom: 0.25rem;
+        }
+      }
+
+      .line-item-attachments {
+        margin-top: 0.5rem;
+
+        .attachment {
+          display: inline-flex;
+          align-items: center;
+          padding: 0.35rem 0.75rem;
+          background-color: rgba(0, 0, 0, 0.05);
+          border-radius: 0.25rem;
+          font-size: 0.75rem;
+          margin-right: 0.5rem;
+          margin-bottom: 0.5rem;
+
+          i {
+            margin-right: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+
+  .add-line-item-form {
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--card-shadow);
+
+    h3 {
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+// Empty state
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+
+  .empty-icon {
+    font-size: 4rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+  }
+
+  .illustration {
+    margin-bottom: 2rem;
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  h3 {
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    color: var(--secondary-color);
+    max-width: 400px;
+    margin: 0 auto 1.5rem;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .layout-sidebar {
+    width: var(--sidebar-collapsed-width);
+
+    .sidebar-header .brand-text,
+    .menu-item .menu-text {
+      display: none;
+    }
+
+    &.expanded {
+      width: var(--sidebar-width);
+
+      .sidebar-header .brand-text,
+      .menu-item .menu-text {
+        display: block;
+      }
+    }
+  }
+
+  .kanban-board {
+    .kanban-column {
+      min-width: 250px;
+      width: 250px;
+    }
+  }
+
+  .project-form {
+    .form-row {
+      flex-direction: column;
+    }
+  }
+}
+
+.layout-main {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 3rem;
+  transition: all 0.3s ease;
+  margin-left: var(--sidebar-width);
+}
+
+.layout-sidebar.layout-sidebar-slim {
+  width: var(--sidebar-collapsed-width);
+}
+
+.layout-sidebar.layout-sidebar-slim ~ .layout-main {
+  margin-left: var(--sidebar-collapsed-width);
+}
+
+@media (max-width: 768px) {
+  .layout-sidebar {
+    position: static; /* Remove the fixed positioning on small screens */
+    width: 100%;
+    height: auto;
+  }
+
+  .layout-main {
+    margin-left: 0;
+  }
+}
+
+.p-datatable-header-cell.justify-end .p-datatable-column-header-content {
+  justify-content: end;
+}
+
+label {
+  font-weight: 500;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+}
+
+.table-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+*[readonly] {
+  background-color: #f5f5f5 !important;
+  border-color: #f0f0f0 !important;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Stacks — gen-z polish
+   softer corners, gentle shadows, violet focus
+   ============================================================ */
+.layout-main {
+  background: var(--app-bg, #faf9ff);
+}
+
+.p-card,
+.p-panel,
+.p-datatable,
+.bg-white.rounded-lg {
+  border-radius: 1rem !important;
+  box-shadow: var(--card-shadow);
+}
+
+.p-button {
+  border-radius: 0.7rem !important;
+  font-weight: 600;
+}
+
+.p-inputtext,
+.p-select,
+.p-multiselect,
+.p-textarea,
+.p-datepicker-input {
+  border-radius: 0.7rem !important;
+}
+
+.p-inputtext:focus,
+.p-select:not(.p-disabled).p-focus,
+.p-multiselect:not(.p-disabled).p-focus {
+  box-shadow: 0 0 0 4px rgba(var(--primary-color-rgb), 0.18) !important;
+  border-color: var(--primary-color) !important;
+}
+
+/* Summary cards — a bit more lift + rounder */
+.summary-card,
+.expense-claims-view .summary-card {
+  border-radius: 1rem;
+  box-shadow: var(--card-shadow);
+}
+
+.kanban-board .kanban-card {
+  border-radius: 0.85rem;
+  border: 1px solid rgba(var(--primary-color-rgb), 0.08);
+}
+
+/* Pill badges keep their semantic color, just rounder + bolder */
+.status-badge {
+  letter-spacing: 0.4px;
+  font-weight: 600;
+}
+
